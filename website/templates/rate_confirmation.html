@@ -1,0 +1,17 @@
+{% extends "dashboard.html" %}
+{% block title%}Song Rating{% endblock %}
+{% block main%}
+    <h1>Rate Song</h1>
+    <p>You have rated the song with ID {{ song_id }} as {{ rating }}.</p>
+    <button style=" padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #ff7357;" onclick="goBack()">Go Back</button>
+    <script>
+        function goBack() {
+            location.href = document.referrer;
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+{% block css %}{{url_for('static', filename='stylesheets/dashboardbase.css')}}{% endblock %}
+{%block content %}
+<div class="navbar">{% block navbar %}{% endblock %}</div>
+
+<div class="container">
+
+<div class="sidebar">{% block sidebar %}{% endblock %}</div>
+<div class="main">{% block main %}{% endblock %}</div>
+
+</div>
+{% endblock %}

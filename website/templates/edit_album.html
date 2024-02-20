@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+{% block title%}Edit a Album{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/add_song.css')}}{% endblock %}
+{% block main%}
+    <h1>Edit Album</h1>
+  
+    <form id='form' method="POST" action="{{ url_for('views.edit_album', album_id = album.id) }}" enctype="multipart/form-data">
+
+        <img src="{{ album.image }}" alt="" style="border-radius: 10px; width: 250px; height: 300px;"><br><br>
+        <label for="image_file" class="upload-label">Change Image</label>
+        <input type="file" id="image_file" name="image" accept="image/png, image/jpeg"  class="upload-input"><br><br>
+
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ album.title }}" required><br><br>
+
+        <label for="release_date">Release Date:</label><br>
+        <input type="date" id="release_date" name="release_date" value="{{ album.release_date }}"><br><br>
+
+        
+       
+
+        <label for="songs">Select Songs:</label><br>
+        <select id="songs" name="songs" multiple>
+            {% for song in user_songs %}
+            <option value="{{ song.id }}" {% if  song in album.songs %} selected {% endif %}>{{ song.title }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" class='submit-button' value="Edit Album"> 
+    </form>
+{% endblock %}

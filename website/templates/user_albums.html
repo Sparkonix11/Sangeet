@@ -1,0 +1,55 @@
+{% extends "dashboard.html" %}
+{% block title%}User Album{% endblock %}
+{%block css %}{{url_for('static', filename='stylesheets/user_songs.css')}}{% endblock %}
+{% block main%}
+    <h1> My Albums</h1>
+    <ul>
+        <div class="song-container">
+            {% if user_albums == [] %}
+            <h3 style="margin: 10px auto;">There hasn't been any Album added by You yet.</h3>
+            {% else %}
+               
+            <li class="song">
+                <div class="song-name">
+                   <strong>Name</strong>
+                </div>
+                <div class="artist-name">
+                    <strong>Artist</strong>
+                </div>
+                <div class="avg-rating">
+                    <strong>Release Date</strong>
+                </div>
+                <div class="edit-song">
+                    <strong>Actions</strong>
+                </div>
+            </li>
+
+            {% for album in user_albums %}
+                <li class="song">
+                        
+                    <div class="song-name"><a href="{{ url_for('views.view_album', album_id = album.id) }}">
+                        {{ album.title }}</a>
+                    </div>   
+                    <div class="artist-name">
+                        {{ album.artist.name if album.artist else 'Unknown' }}
+                    </div>
+                    <div class="avg-rating">
+
+                        {{ album.release_date }}
+                        
+                    </div>
+                
+                <div class="edit-song">    
+                    <a href="{{ url_for('views.edit_album', album_id = album.id ) }}">Edit</a>   
+                    <a href="{{ url_for('views.delete_album', album_id = album.id ) }}">Delete</a>
+                </div>
+                    
+                </li>
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        
+    </ul>
+    <a href="{{ url_for('views.add_album')}}"><button class="add-song">Add a Album</button></a>
+{% endblock %}

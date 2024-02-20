@@ -1,0 +1,33 @@
+{% extends "base.html" %} 
+{% block title%}Admin Signup{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/signup.css')}}{% endblock %}
+{% block content%}
+<div class="main">
+    <form method="POST"  enctype="multipart/form-data">
+        <div class="form">
+            <h3>Admin SignUp</h3>
+            <!-- <label for="Name">Name</label> -->
+            <input type="text" name="name" id="name" placeholder="Enter your Name">
+
+            <!-- <label for="Email">Email</label> -->
+            <input type="email" name="email" id="email" placeholder="Enter your Email">
+
+            <!-- <label for="Password">Password</label> -->
+            <input type="password" name="password1" id="password1" placeholder="Enter your Password">
+
+            <!-- <label for="ConfirmPassword">Confirm Password</label> -->
+            <input type="password" name="password2" id="password2" placeholder="Confirm your Password">
+
+            <!-- <label for="secret_key">Secret Key</label> -->
+            <input type="password" name="secret_key" id="secret_key" placeholder="Enter Secret Key of the Website">
+
+            <label for="image_file" class="upload-label">Upload your DP</label><br>
+            <input type="file" class="upload-input" id="image_file" name="image" accept="image/png, image/jpeg"><br><br>
+            <div class="button-group">
+                <button type="submit">Sign Up</button>
+                <a href="{{url_for('auth.adminlogin')}}">Login</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

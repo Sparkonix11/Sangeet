@@ -1,0 +1,35 @@
+{% extends "base.html" %} 
+{% block title%}Signup{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/signup.css')}}{% endblock %}
+{% block content%}
+<div class="main">
+    <form method="POST"  enctype="multipart/form-data">
+        <div class="form">
+            <h3>Sign Up</h3><br><br>
+            <!-- <label for="Name">Name</label> -->
+            <input type="text" name="name" id="name" placeholder="Enter your Name"><br>
+
+            <!-- <label for="Email">Email</label> -->
+            <input type="email" name="email" id="email" placeholder="Enter your Email"><br>
+
+            <!-- <label for="Password">Password</label> -->
+            <input type="password" name="password1" id="password1" placeholder="Enter your Password"><br>
+
+            <!-- <label for="ConfirmPassword">Confirm Password</label> -->
+            <input type="password" name="password2" id="password2" placeholder="Confirm your Password"><br>
+
+            <label for="image_file" class="upload-label">Upload your DP</label><br>
+            <input type="file" class="upload-input" id="image_file" name="image" accept="image/png, image/jpeg"><br><br>
+
+            <label for="creator">Are you a Creator?</label>
+            <input type="radio" name="creator" id="creator1" value="creator1"> <span>Yes</span>
+            <input type="radio" name="creator" id="creator0" value="creator0"> <span>No</span>
+            <br><br>
+            <div class="button-group">
+                <button type="submit">Sign Up</button>
+                <a href="{{url_for('auth.login')}}">Login</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

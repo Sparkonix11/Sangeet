@@ -1,0 +1,25 @@
+{% extends "dashboard.html" %}
+{% block title%}Add a Song{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/add_song.css')}}{% endblock %}
+{% block main%}
+    <h1>Add a New Song</h1>
+    
+    <form id='form' method="POST" action="{{ url_for('views.addsong') }}" enctype="multipart/form-data">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="lyrics">Lyrics:</label><br>
+        <textarea id="lyrics" name="lyrics" rows="4" cols="50" required></textarea><br>
+
+        <label for="song_file" class="upload-label">Song File (.mp3)</label><br>
+        <input type="file" id="song_file" name="file" accept=".mp3" required class="upload-input"><br>
+
+        <label for="image_file" class="upload-label">Song Poster</label><br>
+        <input type="file" id="image_file" name="image" accept="image/png, image/jpeg" class="upload-input"><br><br>
+
+
+        <input type="submit" class='submit-button' value="Add Song">
+    </form>
+
+    
+{% endblock %}

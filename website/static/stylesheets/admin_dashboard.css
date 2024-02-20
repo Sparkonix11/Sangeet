@@ -1,0 +1,16 @@
+@import url(dashboard.css);
+@import url(user_songs.css);
+
+.flag_button{
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #ff7357;
+    transition: background-color 0.3s ease;
+}
+
+.flag_button:hover {
+    background-color: #ff502d;
+}

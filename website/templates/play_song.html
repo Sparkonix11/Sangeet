@@ -1,0 +1,29 @@
+{% extends "dashboard.html" %}
+{% block title%}Playing {{ song.title }}{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/play_song.css')}}{% endblock %}
+{% block main%}
+    {% if song.flagged %}
+        <h2 style="text-align: center;">Cant Play this song because it has been flagged by Admin</h2>
+    {% else %}
+    <h1 style="margin-left: 50px;">Now Playing </h1>
+    <div class="song-details">
+        <img src="{{ song.image }}" alt="">
+        <div class="song-info">
+            <div class="song-title"><h3 style="margin: 0;">{{ song.title }}</h3></div>
+            <div class="artist-name"><span>Artist: {{ song.artist.name }}</span>
+                <div class="audio-player">
+                <audio controls id="customAudio" autoplay>
+                  <source src="/{{ song.file_path }}" type="audio/mpeg" >
+                  Your browser does not support the audio element.
+                </audio>
+            </div></div>
+        </div>
+    </div>
+    
+    <div class="lyrics-container">
+        <span>Lyrics:</span><pre>{{ song.lyrics }}</pre>
+    </div>
+    {% endif %}
+      
+   
+{% endblock %}

@@ -1,0 +1,147 @@
+@import url(dashboard.css);
+div.song-details {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding:30px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    
+}
+
+div.lyrics-container {
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+div.song-details  > img {
+    width: 250px;
+    height: 300px;
+    border-radius: 50px;
+    display: block;
+    box-sizing: border-box;
+    overflow: hidden;
+    
+}
+div.song-info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    
+    
+}
+
+div.artist-name {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #555;
+}
+
+.song-title {
+    font-size: 34px;
+}
+
+
+.lyrics-container {
+    width: 90%; 
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .lyrics-container span {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .lyrics-container pre {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.9); 
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #ff7357; 
+    overflow-x: auto;
+  }
+  
+.audio-player {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+  }
+  
+  .details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .buttons button {
+    border: none;
+    background-color: #eee;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .buttons button:hover {
+    background-color: #ddd;
+  }
+  
+  .sliders {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .seek-bar {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  .current-time, .total-time {
+    margin: 0 10px;
+  }
+  
+  .volume-bar {
+    width: 50px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  .audio-player:hover .volume-bar {
+    width: 80px;
+  }
+  
+  .audio-player input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #aaa;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  

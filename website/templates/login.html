@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+{% block title%}Login{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/login.css')}}{% endblock %}
+{% block content%}
+<div class="main">
+    <form method="POST">
+        <div class="form">
+            <h3>Login</h3><br><br>
+            <!-- <label for="email">Email ID</label> -->
+            <input type="email" name="email" id="email" placeholder="Enter your Email ID">
+            <!-- <label for="password">Password</label> -->
+            <input type="password" name="password" id="password" placeholder="Enter your Password">
+            <br>
+            <div class="button-group">
+                <button type="submit">Login</button>
+                <a href="{{ url_for('auth.signup')}}">Sign Up</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+  <div class="form-footer">
+    <a href="{{ url_for('auth.adminlogin')}}">Click Here for Admin Login page</a>
+  </div>
+ 
+
+{% endblock %}

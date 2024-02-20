@@ -1,0 +1,132 @@
+{% extends "dashboard.html" %}
+{% block title%}User Songs{% endblock %}
+{%block css %}{{url_for('static', filename='stylesheets/user_songs.css')}}{% endblock %}
+
+{% block main%}
+    <h1>My Songs</h1>
+    <ul>    
+        <div class="song-container">
+            {% if songs == [] %}
+            <h3 style="margin: 10px auto;">There hasn't been any Song added by You yet.</h3>
+            {% else %}
+                <li class="song">
+                    <div class="song-name">
+                       <strong>Name</strong>
+                    </div>
+                    <div class="artist-name">
+                        <strong>Artist</strong>
+                    </div>
+                    <div class="avg-rating">
+                        <strong>Average Rating</strong>
+                    </div>
+                    <div class="avg-rating">
+                        <strong>Rate</strong>
+                    </div>
+                    <div class="edit-song">
+                        <strong>Actions</strong>
+                    </div>
+                </li>
+            
+            {% for song in songs %}
+            
+                
+                <li class="song">
+                    
+                        <div class="song-name"><a href="{{ url_for('views.play_song', song_id=song.id) }}">
+                            {{ song.title }}</a>
+                        </div>   
+                        <div class="artist-name">
+                            {{ song.artist.name if song.artist else 'Unknown' }}
+                        </div>
+                        <div class="avg-rating">
+
+                            {% if song.ratings %}
+                                {% set total_ratings = song.ratings|length %}
+                                {% set sum_ratings = song.ratings|map(attribute='rating')|sum %}
+
+                                    {% if total_ratings > 0 %}
+                                        {{ sum_ratings / total_ratings }}
+                                    {% else %}
+                                        Not rated yet
+                                    {% endif %}
+                                
+                            {% else %}
+                                No ratings yet
+                            {% endif %}
+                            
+                        </div>
+                        <div class="rate">
+                            <form id="ratingForm{{ song.id }}" method="POST" action="/songs/rate/{{ song.id }}/rating">
+                                <div class="star-rating" data-song-id="{{ song.id }}">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </form>
+                            
+                        </div>
+                    
+                    <div class="edit-song">    
+                        <a href="{{ url_for('views.edit_song', song_id = song.id ) }}">Edit</a>   
+                        <a href="{{ url_for('views.delete_song', song_id = song.id ) }}">Delete</a>
+                    </div>
+                </li>
+            
+            {% endfor %}
+            {% endif %}
+        </div>
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                const starContainers = document.querySelectorAll('.star-rating');
+
+                starContainers.forEach(starContainer => {
+                    const stars = starContainer.querySelectorAll('.star');
+                    const songId = starContainer.getAttribute('data-song-id');
+                    const rating = parseInt("{{ user_ratings[songId] }}"); 
+                    const dic = '{{ user_ratings|tojson }}'
+                    var user_rating = JSON.parse(dic)
+                    highlightStars(stars, user_rating[songId]);
+                    
+                    stars.forEach((star, index) => {
+                        star.addEventListener('mouseover', function(event) {
+                            const rating = parseInt(this.getAttribute('data-value'));
+                            highlightStars(stars, rating);
+                        });
+
+                        star.addEventListener('mouseout', function(event) {
+                            const currentRating = parseInt(starContainer.getAttribute('data-rating'));
+                            highlightStars(stars, user_rating[songId]);
+                        });
+
+                        star.addEventListener('click', function(event) {
+                            const rating = parseInt(this.getAttribute('data-value'));
+                            const songId = starContainer.getAttribute('data-song-id');
+                            updateRating(songId, rating);
+                        });
+                    });
+                });
+            });
+
+            function highlightStars(stars, rating) {
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+
+            function updateRating(songId, userRating) {
+                const form = document.querySelector(`#ratingForm${songId}`);
+                form.action = `/songs/rate/${songId}/${userRating}`;
+                form.submit();
+            }
+        </script>
+    </ul>
+
+    <a href="{{ url_for('views.addsong') }}"><button class="add-song">Add a Song</button></a>
+{% endblock %}

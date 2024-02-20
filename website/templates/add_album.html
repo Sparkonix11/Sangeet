@@ -1,0 +1,28 @@
+{% extends "dashboard.html" %}
+{% block title%}Add a Album{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/add_song.css')}}{% endblock %}
+{% block main%}
+    <h1>Add a New Album</h1>
+    
+    <form id='form' method="POST" action="{{ url_for('views.add_album') }}" enctype="multipart/form-data">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="release_date">Release Date:</label><br>
+        <input type="date" id="release_date" name="release_date" required><br>
+
+        <label for="songs">Select Songs:</label><br>
+        <select id="songs" name="songs" multiple><br>
+            {% for song in user_songs %}
+            <option value="{{ song.id }}">{{ song.title }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="image_file" class="upload-label" >Album Image</label><br>
+        <input type="file" id="image_file" name="image" accept="image/png, image/jpeg" class="upload-input"> <br><br>
+
+        
+
+        <input type="submit" class='submit-button' value="Add Album"> 
+    </form>
+{% endblock %}

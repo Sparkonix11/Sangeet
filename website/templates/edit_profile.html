@@ -1,0 +1,36 @@
+{% extends "dashboard.html" %}
+{% block title%}Edit your Profile{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/add_song.css')}}{% endblock %}
+
+{% block main%}
+    <h1>Edit Profile</h1>
+    <form id='form' method="POST" enctype="multipart/form-data">
+        <img src="{{ user.image }}" alt="" style="border-radius: 1000px; width: 120px;"><br><br>
+        <label for="image_file" class="upload-label">Change Image</label>
+        <input type="file" id="image_file" name="image" accept="image/png, image/jpeg" class="upload-input" ><br><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ user.name }}" ><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}" ><br><br>
+
+        <label for="old_password">Old Password:</label>
+        <input type="password" id="old_password" name="old_password" required><br><br>
+
+        <label for="password">New Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your new Password"><br><br>
+
+        {% if ((user.role == 'creator') or (user.role == 'user'))%}
+        <label for="password">Are you a Creator:</label>
+        <div>
+        <input type="radio" name="creator" id="creator1" value="creator1" {% if user.role == 'creator' %} checked {% endif %}> <span>Yes</span>
+        <input type="radio" name="creator" id="creator0" value="creator0" {% if user.role == 'user' %} checked {% endif %}> <span>No</span></div>
+            <br><br>
+        {% endif %}
+
+        <input type="submit" class='submit-button' value="Update Profile">
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "dashboard.html" %}
+{% block title%}My Playlists{% endblock %}
+{%block css %}{{url_for('static', filename='stylesheets/user_songs.css')}}{% endblock %}
+{% block main%}
+<h1> My Playlists</h1>
+<ul>
+    <div class="song-container">
+        {% if user_playlists == [] %}
+            <h3 style="margin: 10px auto;">There hasn't been any Playlist created by You yet.</h3>
+            {% else %}
+        <li class="song">
+            <div class="artist-name">
+                <strong> </strong>
+            </div>
+            <div class="song-name">
+               <strong>Name</strong>
+            </div>
+            
+            <div class="edit-song">
+                <strong>Actions</strong>
+            </div>
+        </li>
+
+        {% for playlist in user_playlists %}
+            <li class="song">
+                <div class="artist-name">
+                    <img src="{{ playlist.image }}" style="width: 100px; height: 120px; border-radius: 10px;" alt="">
+                </div>    
+                <div class="song-name"><a href="{{ url_for('views.view_playlist', playlist_id = playlist.id) }}">
+                    {{ playlist.name }}</a>
+                </div>   
+                
+            
+            <div class="edit-song">    
+                <a href="{{ url_for('views.edit_playlist', playlist_id = playlist.id ) }}">Edit</a>   
+                <a href="{{ url_for('views.delete_playlist', playlist_id = playlist.id ) }}">Delete</a>
+            </div>
+                
+            </li>
+
+        {% endfor %}
+        {% endif %}
+    </div>
+    
+</ul>
+    <a href="{{ url_for('views.create_playlist')}}"> <button class="add-song">Create Playlist</button></a>
+{% endblock %}

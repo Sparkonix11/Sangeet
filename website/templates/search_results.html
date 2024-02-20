@@ -1,0 +1,77 @@
+{% extends "dashboard.html" %}
+{% block title%}Search Results{% endblock %}
+
+{% block main%}
+<h2>Search Results for "{{ request.args.get('query') }}"</h2>
+
+
+<div class="cards-container">
+    <h2> Songs </h2>
+    <div class="songs-container">
+       
+        {% for song in songs %}
+            
+            
+               
+                <a href="{{ url_for('views.play_song', song_id=song.id) }}">
+                    <div class="song-card">
+                        <img src="{{ song.image }}" alt="">
+                        <div class="card-overlay"></div>
+                        <div class="card-overlay-hover"></div>
+                        <div class="card-hover-content">
+                            <h5>Average Rating:{% for rating in analytics %}{% if rating.song_id == song.id %} {{ rating.average_rating }} {% endif %} {% endfor %}</h5>
+                        </div>
+                        <h3>{{ song.title }}</h3>
+                        <h4>{{ song.artist.name }}</h4>
+                    </div>
+                </a>
+            
+            
+        {% endfor %}
+        {% if songs|length == 0 %}
+            <h3 style="margin: 5px auto;"> Did not match any results</h3>
+        {% endif %}
+    </div>
+</div>
+
+<div class="cards-container">
+    <h2> Albums </h2>
+    <div class="songs-container">
+        {% if albums == [] %}
+            <h3 style="margin: 5px auto;">Did not match any Results</h3>
+        {% endif %}   
+        {% for album in albums %}
+        <a href="{{url_for('views.view_album', album_id = album.id) }}"><div class="song-card">
+                <img src="{{ album.image }}" alt="">
+                <div class="card-overlay"></div>
+                <div class="card-overlay-hover"></div>
+                <div class="card-hover-content">
+                    <h5>Release Date: {{ album.release_date }}</h5>
+                </div>
+                <h3>{{ album.title }}</h3>
+                <h4>{{ album.artist.name }}</h4>
+                
+            </div></a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="cards-container">
+    <h2>Playlists</h2>
+    
+    <div class="songs-container">
+        {% if playlists == [] %}
+            <h3 style="margin: 5px auto;">Did not match any Results</h3>
+        {% endif %}   
+        {% for playlist in playlists %}
+        <a href="{{url_for('views.view_playlist', playlist_id = playlist.id) }}"><div class="song-card">
+                <img src="{{ playlist.image }}" alt="">
+                <div class="card-overlay"></div>
+                <h3>{{ playlist.name }}</h3>
+            </div></a>
+        
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

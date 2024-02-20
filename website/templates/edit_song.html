@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends "dashboard.html" %}
+{% block title%}Edit a Song{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/add_song.css')}}{% endblock %}
+
+{% block main%}
+    <h1>Edit a Song</h1>
+
+    <form id='form' method="POST" action="{{ url_for('views.edit_song', song_id = song.id) }}" enctype="multipart/form-data">
+        <img src="{{ song.image }}" alt="" style="border-radius: 10px; width: 250px; height: 300px;"><br><br>
+        <label for="image_file" class="upload-label">Change Image</label>
+        <input type="file" id="image_file" name="image" accept="image/png, image/jpeg"  class="upload-input"><br><br>
+
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ song.title }}"><br><br>
+
+        <label for="lyrics">Lyrics:</label><br>
+        <textarea id="lyrics" name="lyrics" rows="4" cols="50" required>{{ song.lyrics }}</textarea><br><br>
+
+
+        <input type="submit" class='submit-button' value="Edit Song">
+    </form>
+
+    
+{% endblock %}

@@ -1,0 +1,179 @@
+{% extends "dashboardbase.html" %} 
+{% block title%}Dashboard{% endblock %}
+{% block css %}{{url_for('static', filename='stylesheets/dashboard.css')}}{% endblock %}
+
+{% block navbar%}
+
+<div>
+    <a href="{% if current_user.role == 'admin' %}{{ url_for('views.admin_dashboard') }}{% else %}{{ url_for('views.dashboard') }}{% endif %}"><img src="{{url_for('static', filename = 'logo.jpeg')}}" alt="" class="logo"></a>
+</div>
+<div id='searchbar' class="search">
+    <form method="GET" action="{{ url_for('views.search_results') }}">
+        <div>
+            <input id='searchbar' type="search" name="query" placeholder="Search . . ." required>
+            <button type="submit" id="searchbutton">Search</button>
+        </div>
+    </form>
+</div>
+<div>
+    <ul>
+        <li class="dropdown-li"><div class="dropdown">
+                <div style="display: flex; align-items: center; gap: 5px; font-size: 16px;">{{ current_user.name }}
+                <img src="{{ current_user.image }}" alt="" class="user_dp "></div>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('auth.edit_profile') }}">Edit Your Profile</a>
+                    <a href="{{ url_for('auth.logout') }}">Logout</a>
+                </div>
+        </div></li>
+        
+    </ul>
+</div>
+
+
+{% endblock %}
+
+{% block sidebar%}
+{% if current_user.flagged %}
+        
+    {% else %}
+<ul>
+    
+    <h3>My Library</h3>
+    {% if current_user.role == 'creator'%}
+    <a href="{{url_for('views.user_albums')}}"><li>Albums</li></a>
+    <a href="{{url_for('views.user_songs')}}"><li>Songs</li></a>
+    {% endif %}
+    <a href="{{ url_for('views.user_playlists') }}"><li>Playlist</li></a>
+    <h3>Discover</h3>
+    <a href="{{url_for('views.all_albums')}}"><li>Albums</li></a>
+    <a href="{{url_for('views.all_songs')}}"><li>Songs</li></a>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block main%}
+{% if current_user.flagged %}
+        <h2 style="text-align: center;">Cant use the Website because this user has been flagged by Admin</h2>
+    {% else %}
+<h1 style="text-align: center;">Welcome {{ current_user.name }}</h1><br>
+{% if current_user.role == 'creator' %}
+<div class="cards-container">
+    <h2>Your Top Songs </h2>
+    <div class="songs-container">
+        {% set user_songs = [] %}
+        {% for song in top_songs %}
+            
+            {% if current_user.id == song.artist_id %}
+                {% set user_songs = user_songs.append(song) %}
+                <a href="{{ url_for('views.play_song', song_id=song.id) }}">
+                    <div class="song-card">
+                        <img src="{{ song.image }}" alt="">
+                        <div class="card-overlay"></div>
+                        <div class="card-overlay-hover"></div>
+                        <div class="card-hover-content">
+                            <h5>Average Rating: {{ song.average_rating }}</h5>
+                        </div>
+                        <h3>{{ song.title }}</h3>
+                        <h4>{{ song.artist }}</h4>
+                    </div>
+                </a>
+            
+            {% endif %}
+        {% endfor %}
+        {% if user_songs|length == 0 %}
+            <h3 style="margin: 5px auto;"> You have not added any Song yet.</h3>
+        {% endif %}
+    </div>
+</div>
+
+<div class="cards-container">
+    <h2>Your Latest Albums</h2>
+    <div class="songs-container">
+        {% set user_albums = [] %}
+        {% for album in new_albums %}
+            {% if current_user.id == album.artist_id %}
+                {% set user_albums = user_albums.append(song) %}
+                <a href="{{url_for('views.view_album', album_id = album.id) }}">
+                    <div class="song-card">
+                        <img src="{{ album.image }}" alt="">
+                        <div class="card-overlay"></div>
+                        <div class="card-overlay-hover"></div>
+                        <div class="card-hover-content">
+                            <h5>Release Date: {{ album.release_date }}</h5>
+                        </div>
+                        <h3>{{ album.title }}</h3>
+                        <h4>{{ album.artist.name }}</h4>
+                    
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+        {% if user_albums|length == 0 %}
+            <h3 style="margin: 5px auto;"> You have not added any Album yet.</h3>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<div class="cards-container">
+    <h2>Top Songs {% if current_user.role == 'creator' %} Overall {% endif %}</h2>
+    <div class="songs-container">
+        {% if top_songs == [] %}
+            <h3>There hasn't been any Song added yet.</h3>
+        {% endif %}   
+        {% for song in top_songs %}
+            <a href="{{url_for('views.play_song', song_id = song.id) }}"><div class="song-card">
+                <img src="{{ song.image }}" alt="">
+                <div class="card-overlay"></div>
+                <div class="card-overlay-hover"></div>
+                <div class="card-hover-content">
+                    <h5>Average Rating: {{ song.average_rating }}</h5>
+                </div>
+                <h3>{{song.title}}</h3>
+                <h4>{{ song.artist }}</h4>
+                
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="cards-container">
+    <h2>Latest Albums</h2>
+    <div class="songs-container">
+        {% if new_albums == [] %}
+            <h3>There hasn't been any Album added yet.</h3>
+        {% endif %}   
+        {% for album in new_albums %}
+        <a href="{{url_for('views.view_album', album_id = album.id) }}"><div class="song-card">
+                <img src="{{ album.image }}" alt="">
+                <div class="card-overlay"></div>
+                <div class="card-overlay-hover"></div>
+                <div class="card-hover-content">
+                    <h5>Release Date: {{ album.release_date }}</h5>
+                </div>
+                <h3>{{ album.title }}</h3>
+                <h4>{{ album.artist.name }}</h4>
+                
+            </div></a>
+        {% endfor %}
+    </div>
+</div>
+
+{% if user_playlists != [] %}
+    <div class="cards-container">
+        <h2>Your Playlists</h2>
+        <div class="songs-container">
+            {% for playlist in user_playlists %}
+            <a href="{{url_for('views.view_playlist', playlist_id = playlist.id) }}"><div class="song-card">
+                    <img src="{{ playlist.image }}" alt="">
+                    <div class="card-overlay"></div>
+                    <h3>{{ playlist.name }}</h3>
+                </div></a>
+            
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+{% endif %}
+{% endblock %}
